@@ -27,4 +27,4 @@ branches:
   - master  #只监测这个分支，一有动静就开始构建
 env:
     global:
-        - GH_REF: https://github.com/vuhks/vuhks.github.io.git
+        - GH_REF: github.com/vuhks/vuhks.github.io.git
