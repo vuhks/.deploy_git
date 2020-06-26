@@ -3,4 +3,5 @@ Thumbs.db
 db.json
 *.log
 public/
-# source/_posts/diary/
+source/_posts/diary/
+_config.yml
