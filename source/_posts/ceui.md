@@ -12,3 +12,5 @@ description: This is a test
 ceui
 
 hello,world
+
+致辞
