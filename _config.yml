@@ -120,7 +120,7 @@ deploy:
 - type: git
   #repository: https://github.com/vuhks/vuhks.github.io.git
   repository: git@github.com:vuhks/vuhks.github.io.git
-  branch: master
+  branch: blog
 # - type: git
 #   branch: master
 
