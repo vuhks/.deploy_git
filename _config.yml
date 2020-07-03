@@ -121,11 +121,11 @@ deploy:
   #repository: https://github.com/vuhks/vuhks.github.io.git
   repository: git@github.com:vuhks/vuhks.github.io.git
   branch: master
-<<<<<<< HEAD
-=======
--  ignore_pattern:
-    diary: regexp
->>>>>>> c35faf8cb73af8ec44384eecfa0cc34eb9aab7f2
+# <<<<<<< HEAD
+# =======
+# -  ignore_pattern:
+#     diary: regexp
+# >>>>>>> c35faf8cb73af8ec44384eecfa0cc34eb9aab7f2
 # - type: git
 #   branch: master
 
