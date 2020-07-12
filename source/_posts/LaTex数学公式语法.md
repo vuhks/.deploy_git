@@ -58,9 +58,8 @@ X^{y^{g(x)}}显示为$X^{y^{g(x)}}$
 
 $\overbrace{1,2,3,\cdots,100}^{100}$，其中用\cdots表示$\cdots$
 ### 三种大括号方法
-```mathjax
 方法一：
-
+```mathjax
 $$ f(x)=\left\{
 \begin{aligned}
 x & = & \cos(t) \\
@@ -70,14 +69,6 @@ z & = & \frac xy
 \right.
 $$
 ```
-$$ f(x)=\left\{
-\begin{aligned}
-x & = & \cos(t) \\
-y & = & \sin(t) \\
-z & = & \frac xy
-\end{aligned}
-\right.
-$$
 方法二：
 ```
 
@@ -89,13 +80,6 @@ F^*_R     &      & {S_M \leq 0 < S_R}\\
 F_R       &      & {S_R \leq 0}
 \end{array} \right. $$
 ```
-$$ F^{HLLC}=\left\{
-\begin{array}{rcl}
-F_L       &      & {0      <      S_L}\\
-F^*_L     &      & {S_L \leq 0 < S_M}\\
-F^*_R     &      & {S_M \leq 0 < S_R}\\
-F_R       &      & {S_R \leq 0}
-\end{array} \right. $$
 方法三:
 ```
 
@@ -105,12 +89,6 @@ $$f(x)=
 1& \text{x!=0}
 \end{cases}$$
 ```
-$$f(x)=
-\begin{cases}
-0& \text{x=0}\\
-1& \text{x!=0}
-\end{cases}$$
-
 
 
 
