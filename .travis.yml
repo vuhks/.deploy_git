@@ -8,9 +8,9 @@ before_install:
   - yarn add global hexo-cli
 install:
    #安装hexo及插件
-before_script:
-  - yarn add global mocha
-  - git clone --branch master https://github.com/vuhks/vuhks.github.io.git public
+#before_script:
+  #- yarn add global mocha
+  #- git clone --branch master https://github.com/vuhks/vuhks.github.io.git public
 script:
   - hexo cl   #清除
   - hexo g   #生成
