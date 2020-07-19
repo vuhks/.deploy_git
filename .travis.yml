@@ -10,7 +10,7 @@ install:
    #安装hexo及插件
 before_script:
   - yarn add global mocha
-  - git clone --branch master https://github.com/Longxr/Longxr.github.io.git public
+  - git clone --branch master https://github.com/vuhks/vuhks.github.io.git public
 script:
   - hexo cl   #清除
   - hexo g   #生成
