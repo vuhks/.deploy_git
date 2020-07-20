@@ -12,12 +12,10 @@ before_install:
 - chmod 600 ./deploy_rsa
 - ssh-add ./deploy_rsa
 install:
-- npm install hexo-cli -g
-- npm install hexo-deployer-git --save
-- npm install
-before_script:
-- git config --global user.name "vuhks"
-- git config --global user.email "cstg.mutou@gmail.com"
+  - yarn add global hexo
+  - yarn add global hexo-cli
+  - yarn add global hexo-deployer-git
+
 script:
 - hexo cl
 - hexo g
