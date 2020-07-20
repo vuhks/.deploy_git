@@ -13,8 +13,16 @@ script:
 - hexo cl
 - hexo g
 after_script:
-- hexo d
+- cd ./public
+- git init
+- git config user.name "vuhks"
+- git config user.email "cstg.mutou@gmail.com"
+- git add .
+- git commit -m "update by Travis-CI"
+- git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
 branches:
   only:
   - master
-
+env:
+  global:
+  - GH_REF: github.com/vuhks/vuhks.github.io.git
