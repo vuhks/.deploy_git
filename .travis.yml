@@ -4,19 +4,18 @@ cache:
   directories:
   - node_modules
 before_install:
-- openssl aes-256-cbc -K $encrypted_7b1492eb178b_key -iv $encrypted_7b1492eb178b_iv
-  -in id_rsa.enc -out ~\/.ssh/id_rsa -d
- - chmod 600 ~/.ssh/id_rsa
-- eval $(ssh-agent)
-- ssh-add ~/.ssh/id_rsa
-- cp .travis/ssh_config ~/.ssh/config
-- git config --global user.name "vuhks"
-- git config --global user.email "cstg.mutou@gmail.com"
-
-install: 
+- openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv
+  -in deploy_rsa.enc -out deploy_rsa -d
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/deploy_rsa
+- ssh-add /tmp/deploy_rsa
+install:
 - npm install hexo-cli -g
 - npm install hexo-deployer-git --save
 - npm install
+before_script:
+- git config --global user.name "vuhks"
+- git config --global user.email "cstg.mutou@gmail.com"
 script:
 - hexo cl
 - hexo g
