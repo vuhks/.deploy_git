@@ -120,7 +120,7 @@ deploy:
 - type: git
   #repository: https://github.com/vuhks/vuhks.github.io.git
   repo: 
-    github: git@github.com:vuhks/vuhks.github.io.git 
+   # github: git@github.com:vuhks/vuhks.github.io.git 
     git: hexo@156.251.174.135:/home/hexo/blog.git
   branch: master 
 

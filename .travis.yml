@@ -3,6 +3,8 @@ node_js: stable
 addons:
   ssh_known_hosts: 156.251.174.135
 cache:
+  apt: true
+  yarn: true
   directories:
   - node_modules
 before_install:
@@ -15,10 +17,12 @@ install:
   - yarn add global hexo
   - yarn add global hexo-cli
   - yarn add global hexo-deployer-git
+  - yarn
 
 script:
 - hexo cl
-- hexo d -g
+- hexo d 
+- hexo g
 
 
 branches:
