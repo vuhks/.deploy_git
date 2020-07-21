@@ -21,10 +21,11 @@ install:
 
 before_script:
  - git config --global user.name "vuhks"
+ - git config --global user.email "cstg.mutou@gmail.com"
 script:
  - hexo cl
- - hexo d 
  - hexo g
+ - hexo d
 
 
 branches:
