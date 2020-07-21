@@ -14,10 +14,9 @@ before_install:
 - chmod 600 /tmp/deploy_rsa
 - ssh-add /tmp/deploy_rsa
 install:
-  - yarn add global hexo
-  - yarn add global hexo-cli
-  - yarn add global hexo-deployer-git
-  - yarn
+  - npm install  hexo-cli -g
+  - npm install hexo-deployer-git --save
+  
 
 before_script:
  - git config --global user.name "vuhks"
@@ -25,7 +24,8 @@ before_script:
 script:
  - hexo cl
  - hexo g
- - hexo d
+ after_success:
+ - hexo delopy
 
 
 branches:
