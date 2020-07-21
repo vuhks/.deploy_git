@@ -1,11 +1,11 @@
 ---
-title: {{ vps ipv6only 搭建Hexo }}
-tags: [vps，ipv6,hexo,linux]
-date: {{ 2020-07-20 }}
-abbrlink: hexo_vps
+title: 'Hexo部署到ipv6only vps '
+tags: [vps,ipv6,linux,hexo]
 comments: false
+date: 2020-07-21 13:34:41
+abbrlink: hexo_vps
 categories: hexo
-description: 折腾了好几天的成果
+description:  折腾了好几天的成果
 ---
 
 # 1. DNS64
@@ -333,4 +333,3 @@ ps：遇到的几个错误，主要是travis encrypt-file deploy_rsa --add这一
 [【DNS64/代理】IPv6 ONLY VPS访问IPv4资源](https://luotianyi.vc/2701.html)
 
 [使用Travis-ci自动SSH部署代码](https://www.zhuwenlong.com/blog/article/5c24b6f2895e3a0fb4072a5c)
-
