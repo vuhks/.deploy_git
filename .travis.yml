@@ -29,8 +29,7 @@ script:
 
 
 branches:
-  only:
-  - master
+    - master
 
 # env:
 #  global: github.com/vuhks/vuhks_source.git
