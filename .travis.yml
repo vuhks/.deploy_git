@@ -25,3 +25,5 @@ branches:
   only:
   - master
 
+env:
+ global: github.com/vuhks/vuhks_source.git

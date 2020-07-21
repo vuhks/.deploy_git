@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="lX6-BQnE4Fb_LbgTEXlwXvKoZ_kfR9zyxAAIgYl-rU4">
+  <meta name="msvalidate.01" content="E2F7014D76D148EA1C26BF87A71258EA">
+  <meta name="baidu-site-verification" content="otWvGWGNYR">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"vuhks.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="折腾了好几天的成果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo部署到ipv6only vps ">
+<meta property="og:url" content="https://vuhks.github.io/hexo/hexo_vps.html">
+<meta property="og:site_name" content="vuhks">
+<meta property="og:description" content="折腾了好几天的成果">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-21T05:34:41.000Z">
+<meta property="article:modified_time" content="2020-07-21T05:37:14.759Z">
+<meta property="article:author" content="vuhks">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="vps">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="ipv6">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://vuhks.github.io/hexo/hexo_vps.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Hexo部署到ipv6only vps  | vuhks</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="vuhks" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">vuhks</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">壁立千仞，无欲则刚</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://vuhks.github.io/hexo/hexo_vps.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="vuhks">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="vuhks">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hexo部署到ipv6only vps 
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-07-21 13:34:41 / 修改时间：13:37:14" itemprop="dateCreated datePublished" datetime="2020-07-21T13:34:41+08:00">2020-07-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <div class="post-description">折腾了好几天的成果</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-DNS64"><a href="#1-DNS64" class="headerlink" title="1. DNS64"></a>1. DNS64</h1><p>参考自<a href="https://luotianyi.vc/2701.html" target="_blank" rel="noopener">【DNS64/代理】IPv6 ONLY VPS访问IPv4资源</a></p>
+<p>由于vps没有ipv4地址，获取资源，安装软件的时候可能会导致解析不到的问题，临时修改dns地址，访问ipv4资源，这作为临时手段。也是ipv6only的vps能用的第一步操作。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span> /etc/resolv.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">namesever2001:67c:<span class="number">2b0</span>::<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="2-域名解析到cloudflare"><a href="#2-域名解析到cloudflare" class="headerlink" title="2. 域名解析到cloudflare"></a>2. 域名解析到cloudflare</h1><p>使用cdn服务使ipv4地址可以通过cf的代理访问到该ipv6所在的web服务器上。</p>
+<p>ps：AAAA 加ipv6地址，并打开proxy，即小黄云</p>
+<h1 id="3-frp内网穿透"><a href="#3-frp内网穿透" class="headerlink" title="3. frp内网穿透"></a>3. frp内网穿透</h1><p>在这一步之前，hexo d是无法操作的，因为hexo-deployer-git配置的repo只能是ipv4地址，且端口必须是22,所以通过内网穿透到带有ipv4、ipv6双栈的vps上获得ipv4的22端口的ssh服务</p>
+<p>前，在内网穿透之前，ssh服务连接的两种途径，一种是本地支持ipv6地址，可直连，没有的话可以添加一个ipv6地址，二是通过带有ipv6地址的vps，进行千层饼操作（ssh到带有ipv6的vps上再ssh）。</p>
+<h2 id="3-1-安装并配置服务端"><a href="#3-1-安装并配置服务端" class="headerlink" title="3.1 安装并配置服务端"></a>3.1 安装并配置服务端</h2><h4 id="安装frps"><a href="#安装frps" class="headerlink" title="安装frps"></a>安装frps</h4><p>在有双栈ip地址的vps上安装frps，如果只有ipv4没有ipv6的vps上可以在<a href="https://www.tunnelbroker.net/" target="_blank" rel="noopener"><strong>Tunnel broker</strong> </a>申请并添加ipv6隧道。具体可参考<a href="https://www.cmsky.com/tunnelbroker/" target="_blank" rel="noopener">为没有IPV6的VPS添加IPV6隧道</a></p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">wget https:<span class="comment">//github.com/fatedier/frp/releases/download/v0.33.0/frp_0.33.0_linux_amd64.tar.gz</span></span><br><span class="line">tar zxvf frp_0<span class="number">.33</span><span class="number">.0</span>_linux_amd64.tar.gz</span><br><span class="line">mv frp_0<span class="number">.33</span><span class="number">.0</span>_linux_amd64 /etc/frps</span><br><span class="line">rm -rf /etc/frp/frpc*</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>修改frpc.ini文件</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="attr">bind_addr</span> = [::]</span><br><span class="line"><span class="attr">bind_port</span> = <span class="number">5443</span></span><br><span class="line"><span class="attr">log_file</span> = ./frps.log</span><br><span class="line"><span class="comment"># debug, info, warn, error</span></span><br><span class="line"><span class="attr">log_level</span> = warn</span><br><span class="line"><span class="attr">log_max_days</span> = <span class="number">3</span></span><br><span class="line"><span class="attr">token</span> = vuhks.top</span><br><span class="line"><span class="attr">max_pool_count</span> = <span class="number">50</span></span><br><span class="line"><span class="attr">tcp_mux</span> = <span class="literal">true</span></span><br><span class="line"><span class="section">[http_proxy]</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="attr">remote_port</span>=<span class="number">10801</span></span><br><span class="line"><span class="attr">plugin</span>=http_proxy</span><br></pre></td></tr></table></figure>
+
+<p>启动frps服务</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="string">/etc/frps</span></span><br><span class="line"><span class="string">./frps</span> -c <span class="string">./frps.ini</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="也可使用一键脚本进行安装配置"><a href="#也可使用一键脚本进行安装配置" class="headerlink" title="也可使用一键脚本进行安装配置"></a>也可使用一键脚本进行安装配置</h4><p><a href="https://github.com/MvsCode/frps-onekey" target="_blank" rel="noopener">详情见github</a></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http<span class="variable">s:</span>//raw.githubusercontent.<span class="keyword">com</span>/MvsCode/frps-onekey/master/install-frps.<span class="keyword">sh</span> -O ./install-frps.<span class="keyword">sh</span></span><br><span class="line">chmod <span class="number">700</span> ./install-frps.<span class="keyword">sh</span></span><br><span class="line">./install-frps.<span class="keyword">sh</span> install</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-安装并配置客户端"><a href="#3-2-安装并配置客户端" class="headerlink" title="3.2 安装并配置客户端"></a>3.2 安装并配置客户端</h2><p>安装同上一步，在修改了dns64地址后是能够wget下载下来的</p>
+<p>配置文件，增添ssh服务和http proxy，http proxy应该是没什么作用的，后续可能会删除。</p>
+<h4 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h4><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="string">/frpc</span></span><br><span class="line">vim <span class="string">/frpc/frpc.ini</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = [服务端的ipv6地址]</span><br><span class="line"><span class="attr">server_port</span> = <span class="number">5443</span></span><br><span class="line"><span class="attr">token</span> = vuhks.top</span><br><span class="line"><span class="section">[ssh]</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">22</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="number">22</span></span><br></pre></td></tr></table></figure>
+
+<p>启动frpc服务</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> <span class="string">/etc/frpc</span></span><br><span class="line"><span class="string">./frpc</span> -c <span class="string">./frpc.ini</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3frpc加入系统服务并开机自启动"><a href="#3-3frpc加入系统服务并开机自启动" class="headerlink" title="3.3frpc加入系统服务并开机自启动"></a>3.3frpc加入系统服务并开机自启动</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="regexp">/etc/</span>systemd<span class="regexp">/system/</span>frpc.service</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line"><span class="attribute">Description</span>=Frp Client</span><br><span class="line"><span class="attribute">After</span>=network.target syslog.target</span><br><span class="line"><span class="attribute">Wants</span>=network.target</span><br><span class="line">[Service]</span><br><span class="line"><span class="attribute">Type</span>=simple</span><br><span class="line"><span class="attribute">User</span>=root</span><br><span class="line"><span class="attribute">ExecStart</span>=/etc/frpc/frpc -c /etc/frpc/frpc.ini</span><br><span class="line"><span class="attribute">Restart</span>=on-failure</span><br><span class="line"><span class="attribute">RestartSec</span>=42s</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line"><span class="attribute">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#刷新服务列表：</span></span><br><span class="line"><span class="attr">systemctl</span> <span class="string">daemon-reload</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#设置开机自启</span></span><br><span class="line"><span class="attr">systemctl</span> <span class="string">enable frp</span></span><br><span class="line"><span class="comment">#关闭开机自启</span></span><br><span class="line"><span class="attr">systemctl</span> <span class="string">disable frp</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#启动服务</span></span><br><span class="line"><span class="attr">systemctl</span> <span class="string">start frp</span></span><br><span class="line"><span class="comment">#停止服务</span></span><br><span class="line"><span class="attr">systemctl</span> <span class="string">stop frp</span></span><br></pre></td></tr></table></figure>
+
+<p> ps: 在这一步是折腾时间最长的，刚开始不知道./frpc -c ./frcp.ini不能后台运行，一直用./frpc -c ./frcp.ini &amp;代替，结果ssh死活登不上去，后来知道了，又继续折腾加入服务这事，每个教程都看了，也都试了，不知道哪个教程最后成功了，最后的frpc.service就长这样了。有时间还得研究一下每行代表的嘛意思。这第一步，用到的linux命令可太多了，端口查看lsos -i，进程查看ps-aux，主要是frpc服务的错误可太多了。也是免费小鸡的性能太低，让我好等啊。</p>
+<h1 id="4-nginx安装与配置"><a href="#4-nginx安装与配置" class="headerlink" title="4. nginx安装与配置"></a>4. nginx安装与配置</h1><p>主要是配置nginx.conf文件，其中有两个坑：</p>
+<p>1.配置文件修改后，打开ip地址显示的还是welcome to nginx，看吐了，后来终于找到原因了，需要注释掉http中include所在的行，不让其他配置文件生效。</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> /etc/nginx/conf.d/*.conf;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> /etc/nginx/sites-enabled/*;</span></span><br></pre></td></tr></table></figure>
+
+<p>主要是这两个文件</p>
+<p>2.终于不是welcome to tianjin了，直接不能访问了，到处google，终于找到原因，还是因为没有ipv4地址，需要让nginx监听ipv6</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">listen</span>      <span class="selector-attr">[::]</span><span class="selector-pseudo">:80</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="5-Travis-CI-自动部署"><a href="#5-Travis-CI-自动部署" class="headerlink" title="5. Travis CI 自动部署"></a>5. Travis CI 自动部署</h1><h2 id="5-1-配置travis"><a href="#5-1-配置travis" class="headerlink" title="5.1 配置travis"></a>5.1 配置travis</h2><p>使用github登录travis，travis分两个网站<a href="travis.org"></a>，可免费部署github上的开源repo]，<a href="travis.com"></a>，收费，可也免费部署，单但有次数限制。</p>
+<p>选择源码仓库</p>
+<h2 id="5-2-加密ssh密钥"><a href="#5-2-加密ssh密钥" class="headerlink" title="5.2 加密ssh密钥"></a>5.2 加密ssh密钥</h2><h3 id="本地安装travis"><a href="#本地安装travis" class="headerlink" title="本地安装travis"></a>本地安装travis</h3><p>安装ruby，这里选择的是编译安装，其他安装方式参考(<a href="http://www.ruby-lang.org/en/documentation/installation/" target="_blank" rel="noopener">http://www.ruby-lang.org/en/documentation/installation/</a>)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">wget https://cache.ruby-china.com/pub/ruby/2.7/ruby-2.7.0.tar.gz</span><br><span class="line">tar zxvf ruby-2.7.0.tar.gz</span><br><span class="line">cd ruby-2.7.0</span><br><span class="line">./configure </span><br><span class="line">make</span><br><span class="line">sudo make install</span><br><span class="line">ruby -v</span><br></pre></td></tr></table></figure>
+
+<p>安装ruby gems，参考(<a href="https://rubygems.org/pages/download" target="_blank" rel="noopener">https://rubygems.org/pages/download</a>)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">wget https://rubygems.org/rubygems/rubygems-3.1.4.zip</span><br><span class="line">unzip rubygems-3.1.4.zip</span><br><span class="line">cd rubygems-3.1.4</span><br><span class="line">ruby setup.rb</span><br><span class="line">gem -v</span><br></pre></td></tr></table></figure>
+
+<p>安装travis</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem install travis</span><br></pre></td></tr></table></figure>
+
+<p>如果由于网络原因无发现下载的话，可以更换国内的源，具体可以 <a href="https://gems.ruby-china.com/" target="_blank" rel="noopener">参考这里</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/</span><br></pre></td></tr></table></figure>
+
+<h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">登录travis.org</span></span><br><span class="line">travis login --org</span><br><span class="line"><span class="meta">#</span><span class="bash">登录travis.com		</span></span><br><span class="line">travis login --pro</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成并加密密钥"><a href="#生成并加密密钥" class="headerlink" title="生成并加密密钥"></a>生成并加密密钥</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在当前目录生成密钥</span></span><br><span class="line">ssh-keygen -t rsa -b 4096 -C 'build@travis-ci.org' -f ./deploy_rsa</span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用Travis加密</span></span><br><span class="line">travis encrypt-file deploy_rsa --add</span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加信任关系</span></span><br><span class="line">ssh-copy-id -i deploy_rsa.pub &lt;ssh-user&gt;@&lt;deploy-host&gt;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除敏感文件</span></span><br><span class="line">rm -f deploy_rsa deploy_rsa.pub</span><br><span class="line"><span class="meta">#</span><span class="bash"> 将修改添加到git中</span></span><br><span class="line">git add deploy_rsa.enc .travis.yml</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-3-配置-travis-yml"><a href="#5-3-配置-travis-yml" class="headerlink" title="5.3 配置.travis.yml"></a>5.3 配置.travis.yml</h2><p>解密密钥部分</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">before_deploy:</span><br><span class="line">- openssl aes-256-cbc -K $encrypted_137f45644142_key -iv $encrypted_137f45644142_iv</span><br><span class="line">  -in deploy_rsa.enc -out /tmp/deploy_rsa -d</span><br><span class="line">- eval "$(ssh-agent -s)"</span><br><span class="line">- chmod 600 /tmp/deploy_rsa</span><br><span class="line">- ssh-add /tmp/deploy_rsa</span><br></pre></td></tr></table></figure>
+
+<p>需要添加我们部署机器的host信息，以让Travis可以正常访问服务器</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">addons:</span><br><span class="line">  ssh_known_hosts: ip地址</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-config-yml"><a href="#配置-config-yml" class="headerlink" title="配置_config.yml"></a>配置_config.yml</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">deploy</span>:</span><br><span class="line">- <span class="attribute">type</span>: git</span><br><span class="line">  #<span class="attribute">repository</span>: <span class="attribute">https</span>:<span class="comment">//github.com/vuhks/vuhks.github.io.git</span></span><br><span class="line">  <span class="attribute">repo</span>: </span><br><span class="line">    <span class="attribute">github</span>: git<span class="variable">@github</span>.<span class="attribute">com</span>:vuhks/vuhks.github.io.git </span><br><span class="line">    <span class="attribute">git</span>: hexo@主机名:/home/hexo/blog.git</span><br><span class="line">  <span class="attribute">branch</span>: master</span><br></pre></td></tr></table></figure>
+
+<h2 id="最后配置文件"><a href="#最后配置文件" class="headerlink" title="最后配置文件"></a>最后配置文件</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">language: node_js</span><br><span class="line">node_js: stable</span><br><span class="line">addons:</span><br><span class="line">  ssh_known_hosts: ip地址</span><br><span class="line">cache:</span><br><span class="line">  directories:</span><br><span class="line">  - node_modules</span><br><span class="line">before_install:</span><br><span class="line">- openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv</span><br><span class="line">  -in deploy_rsa.enc -out /tmp/deploy_rsa -d</span><br><span class="line">- eval "$(ssh-agent -s)"</span><br><span class="line">- chmod 600 /tmp/deploy_rsa</span><br><span class="line">- ssh-add /tmp/deploy_rsa</span><br><span class="line">install:</span><br><span class="line">  - yarn add global hexo</span><br><span class="line">  - yarn add global hexo-cli</span><br><span class="line">  - yarn add global hexo-deployer-git</span><br><span class="line"></span><br><span class="line">script:</span><br><span class="line">- hexo cl</span><br><span class="line">- hexo g</span><br><span class="line">after_success:</span><br><span class="line">- hexo deploy</span><br><span class="line">branches:</span><br><span class="line">  only:</span><br><span class="line">  - master</span><br></pre></td></tr></table></figure>
+
+<p>ps：遇到的几个错误，主要是travis encrypt-file deploy_rsa –add这一步错误，显示加入–r命令，travis encrypt-file —r vuhks/vuhks_source.git deploy_rsa –add，还是报错，然后到travis官网看这一步的介绍，发现是git repo的问题，问题是本地没有git项目，于是git clone了vuhks_source.git ,然后配置git账户，再登录，加密，结果就没错了。</p>
+<p>如果卡在加密那无法生成，关闭终端试一下。</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>部署hexo到vps ipv6only的过程中，虽然每一步都有好多的教程，但还是遇到了无数的错误，还有一些独一无二的错误，有些错误是前置步骤的没有一致执行的错误，有些错误是没有ipv4的原因导致的，最后一一解决后发现，只要根据教程一步一步来，最终是会成功的。致谢网上所有的教程。</p>
+<p>参考文献（不全，有教程不知道参考的哪些了）</p>
+<p><a href="https://luotianyi.vc/2701.html" target="_blank" rel="noopener">【DNS64/代理】IPv6 ONLY VPS访问IPv4资源</a></p>
+<p><a href="https://www.zhuwenlong.com/blog/article/5c24b6f2895e3a0fb4072a5c" target="_blank" rel="noopener">使用Travis-ci自动SSH部署代码</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/vps/" rel="tag"># vps</a>
+              <a href="/tags/hexo/" rel="tag"># hexo</a>
+              <a href="/tags/ipv6/" rel="tag"># ipv6</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/blogs/euserv.html" rel="prev" title="永久免费主机euserv获得与使用">
+      <i class="fa fa-chevron-left"></i> 永久免费主机euserv获得与使用
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-DNS64"><span class="nav-text">1. DNS64</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-域名解析到cloudflare"><span class="nav-text">2. 域名解析到cloudflare</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-frp内网穿透"><span class="nav-text">3. frp内网穿透</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-安装并配置服务端"><span class="nav-text">3.1 安装并配置服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装frps"><span class="nav-text">安装frps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置"><span class="nav-text">配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#也可使用一键脚本进行安装配置"><span class="nav-text">也可使用一键脚本进行安装配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-安装并配置客户端"><span class="nav-text">3.2 安装并配置客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置-1"><span class="nav-text">配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3frpc加入系统服务并开机自启动"><span class="nav-text">3.3frpc加入系统服务并开机自启动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-nginx安装与配置"><span class="nav-text">4. nginx安装与配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Travis-CI-自动部署"><span class="nav-text">5. Travis CI 自动部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-配置travis"><span class="nav-text">5.1 配置travis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-加密ssh密钥"><span class="nav-text">5.2 加密ssh密钥</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#本地安装travis"><span class="nav-text">本地安装travis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#登录"><span class="nav-text">登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成并加密密钥"><span class="nav-text">生成并加密密钥</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-配置-travis-yml"><span class="nav-text">5.3 配置.travis.yml</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-config-yml"><span class="nav-text">配置_config.yml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后配置文件"><span class="nav-text">最后配置文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结语"><span class="nav-text">结语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="vuhks"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">vuhks</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vuhks" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vuhks" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vuhks.cstg@gmail.com" title="E-Mail → mailto:vuhks.cstg@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vuhks</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://vuhks.github.io/hexo/hexo_vps.html',]
+      });
+      });
+  </script>
+
+
+</body>
+</html>

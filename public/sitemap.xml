@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://vuhks.github.io/hexo/hexo_vps.html</loc>
+    
+    <lastmod>2020-07-21T05:37:14.759Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://vuhks.github.io/md/markdown2.html</loc>
     
     <lastmod>2020-07-12T16:38:04.492Z</lastmod>
