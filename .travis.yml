@@ -18,9 +18,9 @@ install:
 
 script:
 - hexo cl
-- hexo g
-after_success:
-- hexo deploy
+- hexo d -g
+
+
 branches:
   only:
   - master
